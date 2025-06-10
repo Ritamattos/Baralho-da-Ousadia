@@ -2194,49 +2194,44 @@ var WprConfig = {"ajaxurl":"https:\/\/cartasdoamor.online\/wp-admin\/admin-ajax.
 })();
 </script>
 <script>
-// Exit Intent específico para Mobile - Método mais eficaz
+// Exit Intent específico para Mobile - Versão corrigida
 let mobileExitShown = false;
+let navigationFromInternalClick = false;
 
 // Detectar se é mobile
 function isMobile() {
     return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Para mobile - detectar tentativa de sair via história do navegador
 if (isMobile()) {
-    // Adicionar um estado fictício ao histórico
-    history.pushState(null, null, window.location.href);
-    
-    // Interceptar o botão voltar
-    window.addEventListener('popstate', function(event) {
-        if (!mobileExitShown) {
-            mobileExitShown = true;
+    // Marcar cliques internos na página
+    document.addEventListener('click', function(e) {
+        // Se clicou em um elemento da própria página
+        if (e.target.closest('a') || e.target.closest('button') || e.target.closest('[onclick]')) {
+            navigationFromInternalClick = true;
             
-            // Redirecionar para a oferta
-            window.location.replace('https://ofertaespeciall.netlify.app/');
+            // Reset após 2 segundos
+            setTimeout(() => {
+                navigationFromInternalClick = false;
+            }, 2000);
         }
     });
     
-    // Detectar quando usuário sai da página (troca de aba, minimize)
-    let hidden, visibilityChange;
-    if (typeof document.hidden !== "undefined") {
-        hidden = "hidden";
-        visibilityChange = "visibilitychange";
-    } else if (typeof document.webkitHidden !== "undefined") {
-        hidden = "webkitHidden";
-        visibilityChange = "webkitvisibilitychange";
-    }
+    // Adicionar estado ao histórico
+    history.pushState({page: 'main'}, null, window.location.href);
     
-    if (visibilityChange) {
-        document.addEventListener(visibilityChange, function() {
-            if (document[hidden] && !mobileExitShown) {
-                mobileExitShown = true;
-                setTimeout(() => {
-                    window.location.href = 'https://ofertaespeciall.netlify.app/';
-                }, 100);
-            }
-        });
-    }
+    // Interceptar botão voltar APENAS
+    window.addEventListener('popstate', function(event) {
+        if (!mobileExitShown && !navigationFromInternalClick) {
+            mobileExitShown = true;
+            
+            // Redirecionar para oferta
+            window.location.replace('https://ofertaespeciall.netlify.app/');
+        } else if (navigationFromInternalClick) {
+            // Se foi clique interno, não fazer nada
+            history.pushState({page: 'main'}, null, window.location.href);
+        }
+    });
 }
 </script>
 </body>
