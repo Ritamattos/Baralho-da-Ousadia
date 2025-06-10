@@ -1,0 +1,3 @@
+# Redirect para página de oferta especial
+/oferta /oferta-especial/index.html 200
+/exit-offer /oferta-especial/index.html 200
