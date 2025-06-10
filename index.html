@@ -2193,6 +2193,33 @@ var WprConfig = {"ajaxurl":"https:\/\/cartasdoamor.online\/wp-admin\/admin-ajax.
     // ... resto do código
 })();
 </script>
+<script>
+// Exit Intent para Mobile
+let mobileExitShown = false;
+
+// Detectar quando usuário vai sair (botão voltar, fechar aba, etc)
+window.addEventListener('beforeunload', function(e) {
+    if (!mobileExitShown && window.innerWidth <= 768) {
+        e.preventDefault();
+        mobileExitShown = true;
+        
+        // Pequeno delay para mostrar a oferta
+        setTimeout(function() {
+            window.location.href = 'https://ofertaespeciall.netlify.app/';
+        }, 100);
+        
+        return "Espera! Temos uma oferta especial para você!";
+    }
+});
+
+// Detectar mudança de orientação/saída em mobile
+document.addEventListener('visibilitychange', function() {
+    if (document.hidden && !mobileExitShown && window.innerWidth <= 768) {
+        mobileExitShown = true;
+        window.location.href = 'https://ofertaespeciall.netlify.app/';
+    }
+});
+</script>
 
 </body>
 </html>
