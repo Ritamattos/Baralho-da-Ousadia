@@ -2175,9 +2175,24 @@ var WprConfig = {"ajaxurl":"https:\/\/cartasdoamor.online\/wp-admin\/admin-ajax.
 <script data-cfasync="false" src="./Baralho – Baralho da Ousadia_files/frontend.min(2).js.transferir" id="wpr-addons-js-js"></script>
 <script src="./Baralho – Baralho da Ousadia_files/modal-popups.min.js.transferir" id="wpr-modal-popups-js-js"></script>
 	
+</script>
 
+<script>
+// Exit Intent Detection Script
+(function() {
+    let exitIntentTriggered = false;
+    
+    // Detectar quando o mouse sai da área do navegador
+    document.addEventListener('mouseout', function(e) {
+        if (e.toElement == null && e.relatedTarget == null && !exitIntentTriggered) {
+            exitIntentTriggered = true;
+            window.location.href = '/oferta/';
+        }
+    });
+    
+    // ... resto do código
+})();
+</script>
 
-
-
-
-</body></html>
+</body>
+</html>
